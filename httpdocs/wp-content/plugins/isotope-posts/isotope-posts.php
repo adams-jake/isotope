@@ -2,24 +2,16 @@
 /**
  * Isotope Posts.
  *
- * @package   Isotope Posts
- * @author    Mandi Wise <hello@mandiwise.com>
- * @license   GPL-2.0+
- * @link      http://mandiwise.com
- * @copyright 2014 Mandi Wise
- *
  * @wordpress-plugin
  * Plugin Name:       Isotope Posts
- * Plugin URI:        http://mandiwise.com/wordpress/isotope-posts/
- * Description:       Allows you to use Metafizzy's Isotope to display feeds of WordPress posts using simple shortcodes. Works with custom post types and custom taxonomies too.
  * Version:           2.1
- * Author:            Mandi Wise
- * Author URI:        http://mandiwise.com
+ * Author:            Jake Adams
+ * Author URI:        http://jake-adams.com/
  * Text Domain:       isotope-posts
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: https://github.com/mandiwise/isotope-posts
+ * Description:		  Isotope plugin, taken over from Mandi Wise
  *
  * WordPress-Plugin-Boilerplate: v2.6.1
  */

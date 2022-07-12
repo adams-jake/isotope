@@ -310,7 +310,8 @@ class Isotope_Posts {
 			'post_type' => $post_type,
          'paged' => $paged,
          'posts_per_page' => $posts_per_page,
-         'orderby' => 'rand',
+         'orderby' => $sort_by,
+         'order' => $order,
 		);
 
       // Set the limiting taxonomy args.
@@ -373,7 +374,7 @@ class Isotope_Posts {
          <div class="iso-container">
    			<ul id="iso-loop">
    			<?php while ( $isoposts->have_posts() ) : $isoposts->the_post(); ?>
-   				<li cursor-class="invert" class="<?php if ( $filter_menu == 'yes' && taxonomy_exists( $filter_by ) ) {
+   				<li class="<?php if ( $filter_menu == 'yes' && taxonomy_exists( $filter_by ) ) {
 						$terms = get_the_terms( $isoposts->post->ID, $filter_by );
 						if ( ! empty( $terms ) ) {
 	                  foreach( $terms as $term ) {

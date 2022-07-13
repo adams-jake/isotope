@@ -185,7 +185,7 @@ class Isotope_Posts {
 	 */
 	private static function single_activate() {
 		// Option needs to be initially added here to fix a bug that should be patched in WP 4.0
-		add_option( 'isotope_options' );
+		//add_option( 'isotope_options' );
 	}
 
 	/**

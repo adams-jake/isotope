@@ -41,6 +41,10 @@
             <tbody>
             <?php foreach( $isotope_loops as $isotope_loop ) : ?>
                <?php
+                  // If no ID skip
+                  $shortcode_id = $isotope_loop['shortcode_id'] ?? false;
+                  if (!$shortcode_id) continue;
+
                   // Get the post loop's options
                   $shortcode_id = $isotope_loop['shortcode_id'];
                   $post_type = $isotope_loop['post_type'] ? get_post_type_object( $isotope_loop['post_type'] )->label : __( 'N/A', $this->plugin_slug );

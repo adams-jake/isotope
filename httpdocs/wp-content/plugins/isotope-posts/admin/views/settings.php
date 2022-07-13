@@ -361,7 +361,7 @@ if ( !class_exists( 'Isotope_Posts_Settings' ) ) {
 
          // Check if any options already exist
          $isotope_loops = ( get_option( 'isotope_options' ) != false ) ? get_option( 'isotope_options' ) : array();
-
+		 
          if ( $save_flag == 'delete' ) {
 
             // Unset the array key for the deleted loop
@@ -380,45 +380,68 @@ if ( !class_exists( 'Isotope_Posts_Settings' ) ) {
    			// Loop through each of the incoming options
    			foreach( $input as $key => $value ) {
 
-   				if ( isset( $input[$key] ) ) {
-   					$input[$key] = strip_tags( stripslashes( $input[$key] ) );
-   				}
+				$array = is_array($input[$key]);
 
-               // Format the shortcode ID slug, or create a random ID if one isn't provided
-               if ( $input[$key] == $input['shortcode_id'] ) {
-                  $value = preg_replace( '/[^A-Za-z0-9\-]/', '', $value );
-               }
+				if (!$array) {
 
-               $input[$key] = apply_filters( 'validate_settings', $value, $key );
+					if ( isset( $input[$key] ) ) {
+						$input[$key] = strip_tags( stripslashes( $input[$key] ) );
+					}
+ 
+					// Format the shortcode ID slug, or create a random ID if one isn't provided
+					if ( $input[$key] == $input['shortcode_id'] ) {
+					$value = preg_replace( '/[^A-Za-z0-9\-]/', '', $value );
+					}
+	
+					$input[$key] = apply_filters( 'validate_settings', $value, $key );
+
+				} 
+
+
    			}
 
-            // Add settings error if the user wants to limit the post display but doesn't pick a limiting taxonomy
-            if ( $input['limit_posts'] == 'yes' && $input['limit_by'] == '' ) {
-               add_settings_error( 'limit_by', 'filter_error', __( 'Please choose a taxonomy that contains the terms to limit the post display.', $this->plugin_slug ) );
-            }
+
+			// Isotope Settings
+			$shortcodeID = $input['shortcode_id'] ?? null;
+
+			$limitPosts = $input['limit_posts'] ?? 'no';
+			$limitby = $input['limit_by'] ?? '';
+			$limitTerm = $input['limit_term'] ?? '';
+
+			$filterMenu = $input['filter_menu'] ?? 'no';
+			$filterBy = $input['filter_by'] ?? '';
+
+			$pagination = $input['pagination'] ?? 'no';
+			$postsPerPage = $input['posts_per_page'] ?? '';
+
+
+			// Add settings error if the user wants to limit the post display but doesn't pick a limiting taxonomy
+			if ($limitPosts === 'yes' && $limitby == '') {
+				add_settings_error( 'limit_by', 'filter_error', __( 'Please choose a taxonomy that contains the terms to limit the post display.', $this->plugin_slug ) );
+			}
 
    			// Add error if the user wants to limit the post display by taxonomy terms but no terms are entered
-   			if ( $input['limit_posts'] == 'yes' && $input['limit_term'] == '' ) {
+   			if ( $limitPosts === 'yes' && $limitTerm == '' ) {
    				add_settings_error( 'limit_term', 'filter_error', __( 'Please enter at least one term slug to limit what posts are displayed.', $this->plugin_slug ) );
    			}
 
             // Add settings error if the user wants to add a filter menu but doesn't pick a taxonomy
-            if ( $input['filter_menu'] == 'yes' && $input['filter_by'] == '' ) {
+            if ( $filterMenu == 'yes' && $filterBy == '' ) {
                add_settings_error( 'filter_by', 'filter_error', __( 'Please choose a taxonomy that will be used to create the filter menu.', $this->plugin_slug ) );
             }
 
             // Add error if the user wants pagainate posts but they don't pick a "posts per page" number
-            if ( $input['pagination'] == 'yes' && $input['posts_per_page'] == '0' ) {
+            if ( $pagination == 'yes' && $postsPerPage == '0' ) {
                add_settings_error( 'posts_per_page', 'filter_error', __( 'Please select how many posts to load at a time with infinite scroll.', $this->plugin_slug ) );
             }
 
             // Unset the array key if the shortcode ID already exists to remove the old settings
-            if ( array_key_exists( $input['shortcode_id'], $isotope_loops ) ) {
-               unset( $isotope_loops[$input['shortcode_id']] );
+            if ( array_key_exists( $shortcodeID, $isotope_loops ) ) {
+               unset( $isotope_loops[$shortcodeID] );
             }
 
             // Merge our new settings with the existing
-            $output = array_merge( $isotope_loops, array( $input['shortcode_id'] => $input ) );
+            $output = array_merge( $isotope_loops, array( $shortcodeID => $input ) );
 
    			return $output;
 
